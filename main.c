@@ -60,7 +60,7 @@ main(void)
 		if (game_state==0) {
 			
 			if (remote_ready == 1 && local_ready == 1) {
-					countdown = (rand() % (upper – lower + 1)) + lower;
+					countdown = (rand() % (upper â€“ lower + 1)) + lower;
 					game_state = 1;
 			}
 			
@@ -93,6 +93,13 @@ main(void)
 		if (game_state==1) {
 			
 		}
+	  
+	  if (game_state == 2) {
+		ece210_lcd_add_msg("Sorry, you lost!", TERMINAL_ALIGN_CENTER, LCD_COLOR_GREEN);
+		  
+
+          if (game_state == 3) {
+		ece210_lcd_add_msg("You have won!", TERMINAL_ALIGN_CENTER, LCD_COLOR_GREEN);
   }
 }
 
