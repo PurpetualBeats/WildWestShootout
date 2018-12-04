@@ -18,8 +18,8 @@
 
 #define UP_BUTTON 0x01
 
-#define LOCAL_ID     0x00
-#define REMOTE_ID    0x01
+#define LOCAL_ID     0x01
+#define REMOTE_ID    0x00
 
 
 /******************************************************************************
@@ -59,12 +59,17 @@ main(void)
   {
 		if (game_state==0) { //MENU SCREEN STATE
 			
-			if (remote_ready == 1 && local_ready == 1) {
+			if (remote_ready == 1 && local_ready == 1) { //Host generates a random countdown and sends it to the other player
 					if (host == 1) {
 						countdown = 5000;
 						ece210_wireless_send(countdown);
+						ece210_wait_mSec( 500 );
+					} else {
+						countdown = ece210_wireless_get();
+						ece210_wait_mSec( 500 );
 					}
-					//game_state = 1;
+					ece210_lcd_add_msg("READY", TERMINAL_ALIGN_CENTER, LCD_COLOR_GREEN);
+					game_state = 1;
 			} else {
 				
 				if(ece210_wireless_data_avaiable())
@@ -98,10 +103,17 @@ main(void)
 		}
 		
 		if (game_state==1) { //GAMEPLAY STATE
+			ece210_wait_mSec( 1 );
 			countdown-=1;
+			
+			if (countdown==0) {
+				ece210_lcd_add_msg("SHOOT!", TERMINAL_ALIGN_CENTER, LCD_COLOR_RED);
+			}
 		}
   }
 }
+
+
 
 
 
